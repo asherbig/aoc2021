@@ -15,8 +15,8 @@ const part1 = (rawInput: string) => {
     return columnValues;
   }, new Array(input[0].length).fill(0));
 
-  const mostCommon = vals.map(v => v < 0 ? '0' : '1');
-  const leastCommon = vals.map(v => v > 0 ? '0' : '1');
+  const mostCommon = vals.map(v => v < 0 ? 0 : 1);
+  const leastCommon = mostCommon.map(v => 1 - v);
 
   const gamma = parseInt(mostCommon.join(''), 2);
   const epsilon = parseInt(leastCommon.join(''), 2);

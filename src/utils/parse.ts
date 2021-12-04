@@ -5,9 +5,10 @@ export interface Input {
 }
 
 export function parse(rawInput: string): Input {
+  const txt = rawInput.trim();
   return {
-    lines: rawInput.split('\n'),
-    paragraphs: rawInput.split('\n'),
-    nums: rawInput.split('\n').map(x => +x)
+    lines: txt.split('\n'),
+    paragraphs: txt.split('\n\n'),
+    nums: txt.split('\n').map(x => +x)
   }
 }

@@ -1,10 +1,10 @@
 import run from "aocrunner";
-import { parse } from "../utils/index.js";
+import { new2dArray, parse } from "../utils/index.js";
 
 const parseInput = (rawInput: string) => {
   const input = parse(rawInput).paragraphs;
   const nums = input[0].split(',').map(x => +x);
-  const boards = input.slice(1).map(unparsed => new Board(unparsed.split('\n').map(row => row.trim().split(/ +/).map(x => +x))));
+  const boards = input.slice(1).map(unparsed => unparsed.split('\n').map(row => row.trim().split(/ +/).map(x => +x))).map(b => new Board(b));
   return { nums, boards };
 }
 
@@ -36,7 +36,6 @@ class Board {
 
   callNumber(num: number) {
     const coords = this.coords[num];
-    
     if (coords) {
       const [i, j] = coords;
       // use the original grid to "store" hits as -1
@@ -45,27 +44,18 @@ class Board {
       this.remainingSum -= num;
       if (this.numsHit >= this.grid.length) {
         // only check for a win after at least 5 hits
-        this.checkForWin();
+        this.won = this.won || this.checkForWin();
       }
     }
   }
 
   private totalGrid() {
-    return this.grid.reduce((rowSum, row) => rowSum += row.reduce((sum, x) => sum += (x === -1 ? 0 : x), 0), 0);
+    return this.grid.flat().reduce((sum, x) => sum += Math.max(x, 0), 0);
   }
 
-  private checkForWin() {
-    for (let i = 0; i < this.grid.length && !this.won; i++) {
-      this.won = this.row(i).every(x => x === -1) || this.col(i).every(x => x === -1);
-    }
-  }
-
-  private row(idx: number): number[] {
-    return this.grid[idx];
-  }
-
-  private col(idx: number): number[] {
-    return this.grid.map((row) => row[idx]);
+  private checkForWin(): boolean {
+    const transpose = this.grid[0].map((col, i) => this.grid.map(row => row[i]));
+    return [...this.grid, ...transpose].some((rowOrCol) => rowOrCol.every((x => x === -1)));
   }
 }
 

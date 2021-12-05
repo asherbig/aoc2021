@@ -4,3 +4,7 @@
 export function new2dArray<T>(height: number, width: number, initialValue: T): T[][] {
   return [...Array<T[]>(height)].map(_ => Array<T>(width).fill(initialValue));
 }
+
+export function transpose<T>(array: T[][]) {
+  return array.map((col, i) => array.map(row => row[i]));
+}

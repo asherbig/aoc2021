@@ -32,3 +32,4 @@
 
 export * from "./parse.js";
 export * from "./arrays.js";
+export * from "./nums.js"

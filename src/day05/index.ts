@@ -42,14 +42,14 @@ const getSolution = (rawInput: string, diagonals: boolean): number => {
     let length = Math.max(Math.abs(x1-x2), Math.abs(y1-y2)) + 1;
 
     let marked = 0;
-    let x = x1 - dx;
-    let y = y1 - dy;
+    let x = x1;
+    let y = y1;
     while (marked < length) {
-      x += dx;
-      y += dy;
       map[y][x]++;
       marked++;
       if (map[y][x] === 2) { numWhereAtLeast2Lines++; }
+      x += dx;
+      y += dy;
     }
   }
   return numWhereAtLeast2Lines;

@@ -8,3 +8,11 @@ export function new2dArray<T>(height: number, width: number, initialValue: T): T
 export function transpose<T>(array: T[][]) {
   return array.map((col, i) => array.map(row => row[i]));
 }
+
+export function sum(array: number[], condition: (el: number, i: number) => boolean = (_, __) => true) {
+  return array.reduce(((sum, e, i) => sum += condition(e, i) ? e : 0), 0);
+}
+
+export function countIf(array: number[], condition: (el: number, i: number) => boolean = (_, __) => true) {
+  return array.reduce(((sum, e, i) => sum += condition(e, i) ? 1 : 0), 0);
+}

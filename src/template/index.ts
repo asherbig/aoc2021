@@ -1,5 +1,5 @@
 import run from "aocrunner";
-import { parse, new2dArray, transpose, range } from "../utils/index.js";
+import { parse, new2dArray, transpose, range, sum } from "../utils/index.js";
 
 
 const parseInput = (rawInput: string) => {

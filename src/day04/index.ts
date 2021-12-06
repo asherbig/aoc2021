@@ -1,5 +1,5 @@
 import run from "aocrunner";
-import { new2dArray, parse } from "../utils/index.js";
+import { new2dArray, parse, sum, transpose } from "../utils/index.js";
 
 const parseInput = (rawInput: string) => {
   const input = parse(rawInput).paragraphs;
@@ -50,12 +50,11 @@ class Board {
   }
 
   private totalGrid() {
-    return this.grid.flat().reduce((sum, x) => sum += Math.max(x, 0), 0);
+    return sum(this.grid.flat());
   }
 
   private checkForWin(): boolean {
-    const transpose = this.grid[0].map((col, i) => this.grid.map(row => row[i]));
-    return [...this.grid, ...transpose].some((rowOrCol) => rowOrCol.every((x => x === -1)));
+    return [...this.grid, ...transpose(this.grid)].some((rowOrCol) => rowOrCol.every((x => x === -1)));
   }
 }
 

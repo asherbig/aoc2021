@@ -1,5 +1,5 @@
 import run from "aocrunner";
-import { parse, new2dArray, transpose, range } from "../utils/index.js";
+import { parse, new2dArray, transpose, range, sum } from "../utils/index.js";
 
 const parseInput = (rawInput: string) => {
   return parse(rawInput).lines[0].split(',').map(x => +x);
@@ -27,7 +27,7 @@ const numAtDay = (rawInput: string, days: number) => {
     buckets[8] = dayZeroFish;
   }
 
-  return buckets.reduce(((sum, c) => sum += c), 0);
+  return sum(buckets);
 };
 
 // TESTS

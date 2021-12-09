@@ -2,6 +2,7 @@ export interface Input {
   lines: string[];
   paragraphs: string[];
   nums: number[];
+  oneLineNums: number[];
 }
 
 export function parse(rawInput: string): Input {
@@ -9,6 +10,7 @@ export function parse(rawInput: string): Input {
   return {
     lines: txt.split('\n'),
     paragraphs: txt.split('\n\n'),
-    nums: txt.split('\n').map(x => +x)
+    nums: txt.split('\n').map(x => +x),
+    oneLineNums: txt.split(',').map(x=>+x)
   }
 }

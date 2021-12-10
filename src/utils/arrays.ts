@@ -32,3 +32,16 @@ export function intersect<T>(arr1: T[], arr2: T[]) {
 export function difference<T>(arr1: T[], arr2: T[]) {
   return union(subtract(arr1, arr2), subtract(arr2, arr1))
 }
+
+export function shadowClone2d<T>(arr1: any[][], initialValue: T): T[][] {
+  return new2dArray(arr1.length, arr1[0].length, initialValue);
+}
+
+export function median(arr: number[]) {
+  arr = [...arr]; // don't affect the original array by sorting
+  if (arr.length === 0) throw new Error("Arrays of length 0 have no median");
+  arr.sort((a,b) => a-b);
+  const half = Math.floor(arr.length / 2);
+  if (arr.length % 2) return arr[half];
+  return (arr[half - 1] + arr[half]) / 2.0;
+}

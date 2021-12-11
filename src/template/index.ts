@@ -1,21 +1,22 @@
 import run from "aocrunner";
-import { parse, new2dArray, transpose, range, sum, subtract, union, intersect, difference, shadowClone2d } from "../utils/index.js";
+import { Point } from "../utils/graph.js";
+import { parse, new2dArray, transpose, range, sum, subtract, union, intersect, difference, shadowClone2d, median } from "../utils/index.js";
 
 
 const parseInput = (rawInput: string) => {
-  return parse(rawInput);
+  return parse(rawInput).lines;
 }
 
 const part1 = (rawInput: string) => {
   const input = parseInput(rawInput);
-  // if (input.length > 10) { return; }
+  if (input.length > 10) { return; }
 
   return;
 };
 
 const part2 = (rawInput: string) => {
   const input = parseInput(rawInput);
-  // if (input.length > 10) { return; }
+  if (input.length > 10) { return; }
 
   return;
 };

@@ -37,6 +37,10 @@ export function shadowClone2d<T>(arr1: any[][], initialValue: T): T[][] {
   return new2dArray(arr1.length, arr1[0].length, initialValue);
 }
 
+export function count<T>(arr: T[], val: T): number {
+  return arr.filter(el => el === val).length;
+}
+
 export function median(arr: number[]) {
   arr = [...arr]; // don't affect the original array by sorting
   if (arr.length === 0) throw new Error("Arrays of length 0 have no median");

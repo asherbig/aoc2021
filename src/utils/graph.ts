@@ -99,3 +99,61 @@ export class Point<T> {
     return p.exists ? p : null;
   }
 }
+
+/**
+ * This class is set up to be pretty much point-and-go. Put in the first node `id`
+ * and then traverse the graph from there. Traversing using the `neighbors` property.
+ *
+ * `edges` should be the edges of the graph in the format
+ *
+ * `[[id1, id2], [id2, id4], [id3, id5] ...]`
+ * 
+ * NOTE: the edges array is assumed to be bi-directional
+ */
+export class Node<T> {
+  neighbors: Node<T>[] = [];
+  id: T;
+
+  private edges: T[][];
+  private nodes: Map<T, Node<T>>;
+
+  // this implementation of Node assumes that id is a unique
+  // could potentially also pass in a separate value, but ID works as a value
+  // assuming the values are all unique
+  constructor(id: T, edges: T[][], nodes: Map<T, Node<T>> = new Map()) {
+    this.id = id;
+    this.edges = edges;
+    nodes.set(this.id, this);
+    this.nodes = nodes;
+    this.setNeighbors();
+  }
+
+  // for day 12, hacking the generic typing a little bit
+  get small(): boolean {
+    return String(this.id).toLowerCase() === String(this.id);
+  }
+
+  get graphSize(): number {
+    return this.nodes.size;
+  }
+
+  get graphNodes(): Node<T>[] {
+    return [...this.nodes.values()];
+  }
+
+  private setNeighbors() {
+    this.edges.forEach(([v1, v2]) => {
+      if (v1 === this.id) {
+        this.neighbors.push(this.nodeFactory(v2))
+      }
+      if (v2 === this.id) {
+        this.neighbors.push(this.nodeFactory(v1))
+      }
+    });
+  }
+
+  // keep track of nodes that we already know about to avoid an infinite loop of creating nodes
+  private nodeFactory(id: T) {
+    return this.nodes.get(id) || new Node(id, this.edges, this.nodes)
+  }
+}

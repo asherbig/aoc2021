@@ -12,19 +12,17 @@ const part1 = (rawInput: string) => {
 
   let flashes = 0;
   for(let step = 0; step < 100; step++) {
-    let flashed: Point<number>[] = [];
+    let toFlash: Point<number>[] = [];
     for (let i = 0; i < input.length; i++) {
       for (let j = 0; j < input[0].length; j++) {
         let p = new Point(i,j,input);
         p.val++
         if (p.val === 10) {
-          p.val = 0;
-          flashes++;
-          flashed.push(p);
+          toFlash.push(p);
         }
       }
     }
-    flashed.forEach((p) => flashes += visitNeighbors(p));
+    toFlash.forEach((p) => flashes += visitNeighbors(p));
   }
   
   return flashes;
@@ -43,8 +41,6 @@ const part2 = (rawInput: string) => {
         let p = new Point(i,j,input);
         p.val++;
         if (p.val === 10) {
-          p.val = 0;
-          flashes++;
           flashed.push(p);
         }
       }
@@ -56,15 +52,15 @@ const part2 = (rawInput: string) => {
   return step;
 };
 
+// called only when a point is going to flash
 function visitNeighbors(p: Point<number>): number {
-  let flashes = 0;
+  let flashes = 1;
+  p.val = 0;
   let neighbors = p.allNeighbors;
   neighbors.forEach((p) => {
     if (p.val !== 0) {
       p.val++;
       if (p.val === 10) {
-        p.val = 0;
-        flashes++;
         flashes += visitNeighbors(p);
       }
     }

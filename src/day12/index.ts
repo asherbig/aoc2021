@@ -8,44 +8,30 @@ const parseInput = (rawInput: string) => {
 
 const part1 = (rawInput: string) => {
   const edges = parseInput(rawInput);
-  return countPaths(new Node('start', edges));
+  return countPaths(new Node('start', edges), false);
 };
 
 const part2 = (rawInput: string) => {
   const edges = parseInput(rawInput);
-  return countPaths2(new Node('start', edges));
+  return countPaths(new Node('start', edges), true);
 };
 
-function countPaths(n: Node<string>, visited: Node<string>[] = []): number {
+function countPaths(n: Node<string>, part2: boolean, visited: Node<string>[] = []) {
   visited.push(n);
   if (n.id === 'end') return 1;
 
   let paths = 0;
   n.neighbors.forEach(neighbor => {
     if (visited.includes(neighbor) && neighbor.small) {
-      // can't visit again, this path is dead
-    } else {
-      // give each child call their own array of visited so they can branch with independent arrays
-      paths += countPaths(neighbor, [...visited]);
-    }
-  });
-  return paths;
-}
-
-function countPaths2(n: Node<string>, visited: Node<string>[] = []) {
-  visited.push(n);
-  if (n.id === 'end') return 1;
-
-  let paths = 0;
-  n.neighbors.forEach(neighbor => {
-    if (visited.includes(neighbor) && neighbor.small) {
-      // if the node is small, then it needs to only appear in the list once
-      let canVisit = visited.every(n => !n.small || count(visited, n) === 1);
-      if (canVisit && neighbor.id !== 'start') {
-        paths += countPaths2(neighbor, [...visited]);
+      if (part2) {
+        // if the node is small, then it needs to only appear in the list once
+        let canVisit = visited.every(n => !n.small || count(visited, n) === 1);
+        if (canVisit && neighbor.id !== 'start') {
+          paths += countPaths(neighbor, part2, [...visited]);
+        }
       }
     } else {
-      paths += countPaths2(neighbor, [...visited]);
+      paths += countPaths(neighbor, part2, [...visited]);
     }
   });
   return paths;

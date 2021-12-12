@@ -15,14 +15,14 @@ const part1 = (rawInput: string) => {
   let out = 0;
   let arr = [];
   // let visited = shadowClone2d(input, 0);
-  for (let i = 0; i < input.length; i++) {
-    for (let j = 0; j < input[0].length; j++) {
+  // for (let i = 0; i < input.length; i++) {
+  //   for (let j = 0; j < input[0].length; j++) {
       // let el = input[i][j];
       // let p = new Point(i, j, input);
       // let p = new Point(i, j, input, visited);
       
-    }
-  }
+  //   }
+  // }
 
   return out;
 };
@@ -36,12 +36,20 @@ const part2 = (rawInput: string) => {
   return t;
 };
 
-// recursive util
-function visitNeighbors(p: Point<any>): number {
+// recursive util for points
+function visitPoints(p: Point<any>): number {
   let out = 0;
-  let neighbors = p.allNeighbors;
-  neighbors.forEach((p) => {
-    
+  p.allNeighbors.forEach((neighbor) => {
+    out += visitPoints(neighbor)
+  });
+  return out;
+}
+
+// recursive util for nodes
+function visitNodes(n: Node<string>, visited: Node<string>[] = []): number {
+  let out = 0;
+  n.neighbors.forEach(neighbor => {
+    out += visitNodes(neighbor, [...visited]);
   });
   return out;
 }

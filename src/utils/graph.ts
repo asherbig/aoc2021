@@ -111,11 +111,11 @@ export class Point<T> {
  * NOTE: the edges array is assumed to be bi-directional
  */
 export class Node<T> {
-  neighbors: Node<T>[] = [];
   id: T;
 
   private edges: T[][];
   private nodes: Map<T, Node<T>>;
+  private _neighbors: Node<T>[];
 
   // this implementation of Node assumes that id is a unique
   // could potentially also pass in a separate value, but ID works as a value
@@ -125,7 +125,20 @@ export class Node<T> {
     this.edges = edges;
     nodes.set(this.id, this);
     this.nodes = nodes;
-    this.setNeighbors();
+  }
+
+  get neighbors(): Node<T>[] {
+    if (this._neighbors) return this._neighbors;
+    this._neighbors = [];
+    this.edges.forEach(([v1, v2]) => {
+      if (v1 === this.id) {
+        this._neighbors.push(this.nodeFactory(v2))
+      }
+      if (v2 === this.id) {
+        this._neighbors.push(this.nodeFactory(v1))
+      }
+    });
+    return this._neighbors;
   }
 
   // for day 12, hacking the generic typing a little bit
@@ -139,17 +152,6 @@ export class Node<T> {
 
   get graphNodes(): Node<T>[] {
     return [...this.nodes.values()];
-  }
-
-  private setNeighbors() {
-    this.edges.forEach(([v1, v2]) => {
-      if (v1 === this.id) {
-        this.neighbors.push(this.nodeFactory(v2))
-      }
-      if (v2 === this.id) {
-        this.neighbors.push(this.nodeFactory(v1))
-      }
-    });
   }
 
   // keep track of nodes that we already know about to avoid an infinite loop of creating nodes

@@ -16,24 +16,25 @@ const part2 = (rawInput: string) => {
   return countPaths(new Node('start', edges), true);
 };
 
-function countPaths(n: Node<string>, part2: boolean, visited: Node<string>[] = []) {
-  visited.push(n);
+function countPaths(n: Node<string>, part2: boolean, smallRevisited = false, visited: Node<string>[] = []) {
   if (n.id === 'end') return 1;
+  visited.push(n);
 
   let paths = 0;
   n.neighbors.forEach(neighbor => {
     if (visited.includes(neighbor) && neighbor.small) {
-      if (part2) {
+      if (part2 && !smallRevisited) {
         // if the node is small, then it needs to only appear in the list once
         let canVisit = visited.every(n => !n.small || count(visited, n) === 1);
         if (canVisit && neighbor.id !== 'start') {
-          paths += countPaths(neighbor, part2, [...visited]);
+          paths += countPaths(neighbor, part2, true, visited);
         }
       }
     } else {
-      paths += countPaths(neighbor, part2, [...visited]);
+      paths += countPaths(neighbor, part2, smallRevisited, visited);
     }
   });
+  visited.pop();
   return paths;
 }
 

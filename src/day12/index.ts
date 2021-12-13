@@ -23,12 +23,8 @@ function countPaths(n: Node<string>, part2: boolean, smallRevisited = false, vis
   let paths = 0;
   n.neighbors.forEach(neighbor => {
     if (visited.includes(neighbor) && neighbor.small) {
-      if (part2 && !smallRevisited) {
-        // if the node is small, then it needs to only appear in the list once
-        let canVisit = visited.every(n => !n.small || count(visited, n) === 1);
-        if (canVisit && neighbor.id !== 'start') {
-          paths += countPaths(neighbor, part2, true, visited);
-        }
+      if (part2 && !smallRevisited && neighbor.id !== 'start') {
+        paths += countPaths(neighbor, part2, true, visited);
       }
     } else {
       paths += countPaths(neighbor, part2, smallRevisited, visited);

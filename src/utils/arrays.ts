@@ -9,11 +9,11 @@ export function transpose<T>(array: T[][]) {
   return array.map((col, i) => array.map(row => row[i]));
 }
 
-export function sum(array: number[], condition: (el: number, i: number) => boolean = (_, __) => true) {
+export function sum(array: number[], condition: (el: number, i?: number) => boolean = (_, __) => true) {
   return array.reduce(((sum, e, i) => sum += condition(e, i) ? e : 0), 0);
 }
 
-export function countIf(array: number[], condition: (el: number, i: number) => boolean = (_, __) => true) {
+export function countIf(array: number[], condition: (el: number, i?: number) => boolean = (_, __) => true) {
   return array.reduce(((sum, e, i) => sum += condition(e, i) ? 1 : 0), 0);
 }
 
@@ -38,7 +38,7 @@ export function shadowClone2d<T>(arr1: any[][], initialValue: T): T[][] {
 }
 
 export function count<T>(arr: T[], val: T): number {
-  return arr.filter(el => el === val).length;
+  return arr.filter((el: T) => el === val).length;
 }
 
 export function median(arr: number[]) {
@@ -48,4 +48,12 @@ export function median(arr: number[]) {
   const half = Math.floor(arr.length / 2);
   if (arr.length % 2) return arr[half];
   return (arr[half - 1] + arr[half]) / 2.0;
+}
+
+export function traverse2d<T>(arr: T[][], callback: (el: T, i?: number, j?: number) => {}) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length; j++) {
+      callback(arr[i][j], i, j);
+    }
+  }
 }

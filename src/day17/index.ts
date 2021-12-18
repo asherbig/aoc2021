@@ -25,11 +25,8 @@ const parseInput = (rawInput: string): Input => {
 
 const part1 = (rawInput: string) => {
   const input = parseInput(rawInput);
-
-  const xMin = Math.ceil(solveQuadraticPositive(1,1, -2 * input.x.min));
   const yMax = (input.y.min * -1) - 1;
-
-  return shotStats(xMin, yMax, input).maxHeight;
+  return yMax * (yMax + 1) / 2;
 };
 
 const part2 = (rawInput: string) => {

@@ -40,14 +40,14 @@ const part2 = (rawInput: string) => {
   let works = 0;
   for(let dx = xMin; dx <= xMax; dx++) {
     for (let dy = yMin; dy <= yMax; dy++) {
-      if (shotStats(dx, dy, input)) works++;
+      if (shotWorks(dx, dy, input)) works++;
     }
   }
 
   return works;
 };
 
-function shotStats(dx: number, dy: number, target: Input): boolean {
+function shotWorks(dx: number, dy: number, target: Input): boolean {
   let maxHeight = 0;
   let x = 0;
   let y = 0;

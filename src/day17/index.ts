@@ -40,19 +40,14 @@ const part2 = (rawInput: string) => {
   let works = 0;
   for(let dx = xMin; dx <= xMax; dx++) {
     for (let dy = yMin; dy <= yMax; dy++) {
-      if (shotStats(dx, dy, input).works) works++;
+      if (shotStats(dx, dy, input)) works++;
     }
   }
 
   return works;
 };
 
-interface ShotStats {
-  works: boolean;
-  maxHeight: number;
-}
-
-function shotStats(dx: number, dy: number, target: Input): ShotStats{
+function shotStats(dx: number, dy: number, target: Input): boolean {
   let maxHeight = 0;
   let x = 0;
   let y = 0;
@@ -61,7 +56,7 @@ function shotStats(dx: number, dy: number, target: Input): ShotStats{
   // assumes a negative lower bound for y
   while (x <= target.x.max && y >= target.y.min) {
     if (x <= target.x.max && x >= target.x.min && y >= target.y.min && y <= target.y.max) {
-      return { works: true, maxHeight};
+      return true;
     }
     x += dx;
     y += dy;
@@ -69,7 +64,7 @@ function shotStats(dx: number, dy: number, target: Input): ShotStats{
     dy += ddy;
     maxHeight = Math.max(maxHeight, y);
   }
-  return {works: false, maxHeight};
+  return false;
 }
 
 // TESTS

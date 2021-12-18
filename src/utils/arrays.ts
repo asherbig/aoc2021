@@ -13,7 +13,7 @@ export function sum(array: number[], condition: (el: number, i?: number) => bool
   return array.reduce(((sum, e, i) => sum += condition(e, i) ? e : 0), 0);
 }
 
-export function countIf(array: number[], condition: (el: number, i?: number) => boolean = (_, __) => true) {
+export function countIf<T>(array: T[], condition: (el: T, i?: number) => boolean = (_, __) => true) {
   return array.reduce(((sum, e, i) => sum += condition(e, i) ? 1 : 0), 0);
 }
 
@@ -56,4 +56,30 @@ export function traverse2d<T>(arr: T[][], callback: (el: T, i?: number, j?: numb
       callback(arr[i][j], i, j);
     }
   }
+}
+
+type keyable = string | number | symbol;
+export function countMap(arr: any[]): {[key: keyable]: number} {
+  const map = {};
+  arr.forEach(c => {
+    if (!map[c]) {
+      map[c] = 0;
+    }
+    map[c]++;
+  });
+  return map;
+}
+
+export function permutations(arr, len = arr.length, perms = []) {
+  if (len === 1) perms.push(arr.slice(0))
+
+  for (let i = 0; i < len; i++) {
+    permutations(arr, len - 1, perms)
+
+    len % 2 // parity dependent adjacent elements swap
+      ? [arr[0], arr[len - 1]] = [arr[len - 1], arr[0]]
+      : [arr[i], arr[len - 1]] = [arr[len - 1], arr[i]]
+  }
+
+  return perms
 }

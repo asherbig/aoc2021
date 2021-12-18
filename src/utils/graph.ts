@@ -9,15 +9,18 @@ export class Point<T> {
   // should be initialized with 0s as values
   private visitedArr: number[][];
 
+  private pointMap: {[key: string]: Point<T>};
+
   // by taking in the graph, that gives the point the ability to see its neighbors
   // and traverse. This class doesn't make any assumptions about what rules there
   // are about traversing the graph. Just gives some helpful functions to help
   // hide away some of the logic.
-  constructor(i: number, j: number, graph: T[][], visitedArr?: number[][]) {
+  constructor(i: number, j: number, graph: T[][], visitedArr?: number[][], pointMap: {[key: string]: Point<T>} = {}) {
     this.i = i;
     this.j = j;
     this.graph = graph;
     this.visitedArr = visitedArr;
+    this.pointMap = pointMap;
   }
 
   // this can be treated like a boolean
@@ -31,6 +34,10 @@ export class Point<T> {
 
   visit() {
     this.visitedArr[this.i][this.j]++;
+  }
+
+  unvisit() {
+    this.visitedArr[this.i][this.j]--;
   }
 
   get exists(): boolean {
@@ -95,8 +102,32 @@ export class Point<T> {
   }
 
   private pointFactory(i: number, j: number): Point<T> | null {
-    const p = new Point(i, j, this.graph, this.visitedArr)
-    return p.exists ? p : null;
+    const key = String([i,j]);
+    if (this.pointMap[key] === undefined) {
+      const p = new Point<T>(i, j, this.graph, this.visitedArr, this.pointMap)
+      this.pointMap[key] = p.exists ? p : null;
+    }
+    return this.pointMap[key];
+  }
+}
+
+export class PointFactory<T> {
+  private graph: T[][];
+  private visitedArr: number[][];
+  private pointMap: {[key: string]: Point<T>};
+  constructor(graph: T[][], visitedArr?: number[][], pointMap: {[key: string]: Point<T>} = {}) {
+    this.graph = graph;
+    this.visitedArr = visitedArr;
+    this.pointMap = pointMap;
+  }
+
+  newPoint(i: number, j: number): Point<T> | null {
+    const key = String([i,j]);
+    if (this.pointMap[key] === undefined) {
+      const p = new Point<T>(i, j, this.graph, this.visitedArr, this.pointMap)
+      this.pointMap[key] = p.exists ? p : null;
+    }
+    return this.pointMap[key];
   }
 }
 

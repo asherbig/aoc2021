@@ -1,7 +1,7 @@
 import run from "aocrunner";
 import { Point, Node } from "../utils/graph.js";
-import { parse, new2dArray, transpose, range, sum, subtract, union, intersect, difference, shadowClone2d, median, count } from "../utils/index.js";
-
+import { parse, new2dArray, transpose, range, sum, subtract, union, intersect, difference, shadowClone2d, median, count, charCountMap, countMap, permutations, stringChunks, hexToBinary } from "../utils/index.js";
+import { DefaultDict } from "../utils/objects.js";
 
 const parseInput = (rawInput: string) => {
   return parse(rawInput).lines;
@@ -56,7 +56,7 @@ function visitNodes(n: Node<string>, visited: Node<string>[] = []): number {
 
 // TESTS
 const testInput = `
-
+target area: x=20..30, y=-10..-5
 `;
 
 run({

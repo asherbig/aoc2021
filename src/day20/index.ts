@@ -34,7 +34,7 @@ class Image {
     return index;
   }
 
-  toggleVoidValue() {
+  toggleVoid() {
     this.voidValue = this.voidValue === '.' ? '#' : '.';
   }
 
@@ -48,10 +48,6 @@ class Image {
 
   get width(): number {
     return this.image[0].length;
-  }
-
-  print() {
-    console.log(this.image.map(l => l.join('')).join('\n'));
   }
 }
 
@@ -86,7 +82,7 @@ function solve(rawInput: string, steps: number): number {
       }
     }
     if (input.algorithm[0] === '#') {
-      image.toggleVoidValue();
+      image.toggleVoid();
     }
     image.setImage(newImage);
   }
